@@ -1,0 +1,34 @@
+# This is a Databricks asset bundle definition for dab_tutorial.
+# See https://docs.databricks.com/dev-tools/bundles/index.html for documentation.
+bundle:
+  name: dab_tutorial
+  uuid: eaf17c87-6862-4fdd-a712-f0eba33ee622
+
+include:
+  - resources/*.yml
+  - resources/*/*.yml
+
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: dbc-7ec2f9da-3241.cloud.databricks.com
+    permissions:
+      - group_name: admins
+        level: CAN_MANAGE
+    presets:
+      name_prefix: ${workspace.current_user.short_name}
+      source_linked_deployment: false
+
+  prod:
+    mode: production
+    workspace:
+      host: dbc-7ec2f9da-3241.cloud.databricks.com
+      root_path: /Workspace/PROD/.bundle/${bundle.name}/${bundle.target}
+    permissions:
+      - user_name: prajwal2551@gmail.com
+        level: CAN_MANAGE
+      - group_name: admins
+        level: CAN_RUN
